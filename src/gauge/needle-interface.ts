@@ -20,7 +20,6 @@ export class Needle {
   constructor(
     svg,
     needleValue,
-    centralLabel,
     chartHeight,
     outerRadius,
     offset,
@@ -28,7 +27,6 @@ export class Needle {
     outerNeedle,
   ) {
     this.needleValue = needleValue
-    this.centralLabel = centralLabel
     this.chartHeight = chartHeight
     this.outerRadius = outerRadius
     this.offset = offset
@@ -85,7 +83,7 @@ export class Needle {
     // Thin needle if there is no central label and wide if there is.
     let needleWidth = this.centralLabel
       ? this.chartHeight * 0.7
-      : this.chartHeight * 0.1
+      : this.chartHeight * 0.185
     needleWidth = this.outerNeedle ? this.chartHeight * 0.25 : needleWidth
     const needleHeadLength = this.outerNeedle
       ? this.outerRadius * 1.4

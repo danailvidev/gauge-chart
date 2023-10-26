@@ -6,22 +6,24 @@ const gaugeOptions = {
   // needle options
   hasNeedle: true,
   outerNeedle: false,
-  needleColor: 'gray',
-  needleStartValue: 10,
+  needleColor: 'black',
+  needleStartValue: 0,
   needleUpdateSpeed: 1000,
   // arc options
-  arcColors: [],
-  arcDelimiters: [10, 60, 90],
-  arcPadding: 6,
+  arcColors: ['green', 'orange', 'red'],
+  arcDelimiters: [50, 75],
+  arcPadding: 0,
   arcPaddingColor: 'white',
-  arcLabels: ['35', '210', '315'],
+  arcLabels: ['', '$ 123,456,789'],
   arcLabelFontSize: false,
   // arcOverEffect: false,
   // label options
-  rangeLabel: ['0', '350'],
-  centralLabel: '175',
+  // rangeLabel: ['0', '350'],
+  centralLabel: '175%',
   rangeLabelFontSize: false,
-  labelsFont: 'Consolas',
+  labelsFont: 'Roboto',
+  currentValue: 15, // in percentage
+  currentValueCurrency: '$ 344,343,345',
 }
 
-gaugeChart(element, 400, gaugeOptions).updateNeedle(50)
+gaugeChart(element, 450, gaugeOptions).updateNeedle(gaugeOptions.currentValue)
