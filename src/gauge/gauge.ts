@@ -179,7 +179,7 @@ export function arcOutline(
 
       if (arcLabels[i]) {
         // end of arc
-        const spacing = 1.06
+        const spacing = 1.07
         const x =
           chartHeight +
           offset * 2 +
@@ -206,7 +206,7 @@ export function arcOutline(
         // labels on the right need little to no offset
         // endAngle = -PI/2 => offset = -width
         // endAngle = PI/2 => offset = 0
-        const xPadding = 4
+        const xPadding = 10
         const xOffset =
           ((endAngle - Math.PI / 2) / Math.PI) * (size.width + xPadding)
 
@@ -217,7 +217,7 @@ export function arcOutline(
           .attr('y', y)
           .text(arcLabels[i])
           .attr('align', 'center')
-          .attr('font-size', arcLabelFontSize + 'px')
+          .attr('font-size', 11 + 'px')
           .attr('font-family', labelsFont)
       }
     }
@@ -228,7 +228,7 @@ export function arcOutline(
     const endAngle = perc2RadWithShift(currentValue)
 
     // end of arc
-    const spacing = 1.04
+    const spacing = 1.07
     const x =
       chartHeight +
       offset * 2 +
@@ -254,9 +254,10 @@ export function arcOutline(
     // labels on the right need little to no offset
     // endAngle = -PI/2 => offset = -width
     // endAngle = PI/2 => offset = 0
-    const xPadding = 4
+    const xPadding = 10
     const xOffset =
-      ((endAngle - Math.PI / 2) / Math.PI) * (size.width + xPadding)
+      ((endAngle - (Math.PI * 1.2) / 2) / (Math.PI * 1.2)) *
+      (size.width + xPadding)
 
     // calculate color
     let index
@@ -275,7 +276,7 @@ export function arcOutline(
       .text(currentValueCurrency)
       .attr('fill', color)
       .attr('align', 'center')
-      .attr('font-size', arcLabelFontSize + 'px')
+      .attr('font-size', 11 + 'px')
       .attr('font-family', labelsFont)
   }
 }
@@ -381,7 +382,7 @@ export function labelOutline(
   rangeLabelFontSize = rangeLabelFontSize || Math.round(chartHeight * 0.18)
   const realRangeFontSize = rangeLabelFontSize * 0.6 // counted empirically
   const centralLabelFontSize = rangeLabelFontSize * 1.5
-  const realCentralFontSize = centralLabelFontSize * 0.56
+  const realCentralFontSize = centralLabelFontSize * 0.66
 
   // Offsets specification (responsive to chart size)
   const leftRangeLabelOffsetX = rangeLabel[0]
@@ -464,7 +465,7 @@ export function gaugeChart(
     rangeLabel: [],
     centralLabel: '',
     rangeLabelFontSize: undefined,
-    labelsFont: 'Roboto,Helvetica Neue,sans-serif',
+    labelsFont: 'Sans,Roboto,Helvetica Neue,sans-serif',
     currentValue: null,
     currentValueCurrency: '',
   }
@@ -495,7 +496,7 @@ export function gaugeChart(
 
   arcColors = arcColorsModifier(arcDelimiters, arcColors)
 
-  const offset = areaWidth * 0.085
+  const offset = areaWidth * 0.088
   const chartHeight = areaWidth * 0.5 - offset * 2
   const chartWidth = areaWidth - offset * 2
   const outerRadius = chartHeight * 0.75
