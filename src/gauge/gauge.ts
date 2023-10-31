@@ -74,7 +74,7 @@ export function arcOutline(
 ) {
   arcColors.forEach((color, i) => {
     const startAngle = perc2RadWithShift(i ? arcDelimiters[i - 1] : 0)
-    const endAngle = perc2RadWithShift(arcDelimiters[i] || 100) // 120 for last arc slice
+    const endAngle = perc2RadWithShift(arcDelimiters[i] || 100)
 
     let gaugeArc = arc()
       .innerRadius(chartHeight)
@@ -217,7 +217,7 @@ export function arcOutline(
           .attr('y', y)
           .text(arcLabels[i])
           .attr('align', 'center')
-          .attr('font-size', 11 + 'px')
+          .attr('font-size', 12 + 'px')
           .attr('font-family', labelsFont)
       }
     }
@@ -276,7 +276,7 @@ export function arcOutline(
       .text(currentValueCurrency)
       .attr('fill', color)
       .attr('align', 'center')
-      .attr('font-size', 11 + 'px')
+      .attr('font-size', 12 + 'px')
       .attr('font-family', labelsFont)
   }
 }
@@ -496,7 +496,7 @@ export function gaugeChart(
 
   arcColors = arcColorsModifier(arcDelimiters, arcColors)
 
-  const offset = areaWidth * 0.088
+  const offset = areaWidth * 0.099 // size of the chart
   const chartHeight = areaWidth * 0.5 - offset * 2
   const chartWidth = areaWidth - offset * 2
   const outerRadius = chartHeight * 0.75

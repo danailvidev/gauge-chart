@@ -11,7 +11,7 @@ const gaugeOptions = {
   needleUpdateSpeed: 1000,
   // arc options
   arcColors: ['green', 'orange', 'red'],
-  arcDelimiters: [20, 35],
+  arcDelimiters: [1, 15],
   arcPadding: 0,
   arcPaddingColor: 'white',
   arcLabels: ['', '$123.5M'],
@@ -19,10 +19,10 @@ const gaugeOptions = {
   // arcOverEffect: false,
   // label options
   // rangeLabel: ['0', '350'],
-  centralLabel: '175%',
+  centralLabel: '11%',
   rangeLabelFontSize: false,
   labelsFont: 'Sans,Arial',
-  currentValue: 95, // in percentage
+  currentValue: 85, // in percentage
   currentValueCurrency: '$344.5M',
 }
 const gaugeOptions2 = {
@@ -42,7 +42,7 @@ const gaugeOptions2 = {
   // arcOverEffect: false,
   // label options
   // rangeLabel: ['0', '350'],
-  centralLabel: '175%',
+  centralLabel: '5%',
   rangeLabelFontSize: false,
   labelsFont: 'Sans,Arial',
   currentValue: 15, // in percentage
