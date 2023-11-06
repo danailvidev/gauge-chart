@@ -375,6 +375,7 @@ export function labelOutline(
   centralLabel: string,
   rangeLabelFontSize: number,
   labelsFont: string,
+  currentValueCurrency?: number | string,
 ) {
   const arcWidth = chartHeight - outerRadius
 
@@ -383,6 +384,7 @@ export function labelOutline(
   const realRangeFontSize = rangeLabelFontSize * 0.6 // counted empirically
   const centralLabelFontSize = rangeLabelFontSize * 1.5
   const realCentralFontSize = centralLabelFontSize * 0.66
+  const currentValueFontSize = rangeLabelFontSize * 0.7
 
   // Offsets specification (responsive to chart size)
   const leftRangeLabelOffsetX = rangeLabel[0]
@@ -401,6 +403,8 @@ export function labelOutline(
   const centralLabelOffsetX =
     areaWidth / 2 - (realCentralFontSize * centralLabel.length) / 2
   const centralLabelOffsetY = offset + chartHeight * 1.7
+  const currentValueCurrencyOffsetY = centralLabelOffsetY + 11
+  const central = areaWidth / 2 - String(currentValueCurrency).length * 3.2
 
   svg
     .append('text')
@@ -418,12 +422,22 @@ export function labelOutline(
     .attr('font-size', rangeLabelFontSize + 'px')
     .attr('font-family', labelsFont)
 
+  // central label
   svg
     .append('text')
     .attr('x', centralLabelOffsetX)
     .attr('y', centralLabelOffsetY)
     .text(centralLabel)
     .attr('font-size', centralLabelFontSize + 'px')
+    .attr('font-family', labelsFont)
+
+  // sub title (incurred)
+  svg
+    .append('text')
+    .attr('x', central)
+    .attr('y', currentValueCurrencyOffsetY)
+    .text(currentValueCurrency)
+    .attr('font-size', currentValueFontSize + 'px')
     .attr('font-family', labelsFont)
 }
 
@@ -553,6 +567,7 @@ export function gaugeChart(
     centralLabel,
     rangeLabelFontSize,
     labelsFont,
+    currentValueCurrency,
   )
 
   return new Gauge(svg, needleUpdateSpeed, needle)

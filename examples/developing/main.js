@@ -67,7 +67,7 @@ const gaugeOptions3 = {
   // rangeLabel: ['0', '350'],
   centralLabel: '175%',
   rangeLabelFontSize: false,
-  labelsFont: 'Sans,Arial',
+  labelsFont: 'Arial',
   currentValue: 35, // in percentage
   currentValueCurrency: '$344.5M',
 }
