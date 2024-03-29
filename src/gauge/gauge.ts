@@ -44,7 +44,7 @@ export function needleValueModifier(needleValue: number) {
  * @returns value in radians.
  */
 export function perc2RadWithShift(percentage: number) {
-  return (percentage / 100 - 0.5) * Math.PI * 1.5
+  return (percentage / 100 - 0.5) * Math.PI * 1.5 // 1.5 270 degree
 }
 
 /**
@@ -118,14 +118,30 @@ export function arcOutline(
 
       innerArc
         .on('mouseover', () => {
+          // custom tooltip for 270 degree but 180 degree represents 100%!!!
+          const firstDelimiterTreshold = 74
+          const secondDelimiterTreshold = 75
+
+          let prevDelimiter = arcDelimiters[i - 1]
+          let currentDelimiter = arcDelimiters[i]
+          if (!prevDelimiter && currentDelimiter) {
+            currentDelimiter =
+              (currentDelimiter * 100) / secondDelimiterTreshold
+          } else if (prevDelimiter && currentDelimiter) {
+            prevDelimiter = (prevDelimiter * 100) / firstDelimiterTreshold
+            currentDelimiter = 100
+          }
+
           innerArc.style('opacity', 0.8)
           innerArc.style('cursor', 'pointer')
           innerArc
             .append('svg:title')
             .text(
-              arcDelimiters[i]
-                ? `${arcDelimiters[i]}%`?.toLocaleString()
-                : '120%',
+              currentDelimiter
+                ? `${
+                    prevDelimiter || 0
+                  }% - ${currentDelimiter}%`?.toLocaleString()
+                : '100%+',
             )
           outerArc
             .transition()
@@ -177,6 +193,7 @@ export function arcOutline(
           )
       }
 
+      // if 50% endAngle = 0
       if (arcLabels[i]) {
         // end of arc
         const spacing = 1.07
@@ -217,7 +234,7 @@ export function arcOutline(
           .attr('y', y)
           .text(arcLabels[i])
           .attr('align', 'center')
-          .attr('font-size', 12 + 'px')
+          .attr('font-size', 14 + 'px')
           .attr('font-family', labelsFont)
       }
     }
@@ -228,7 +245,7 @@ export function arcOutline(
     const endAngle = perc2RadWithShift(currentValue)
 
     // end of arc
-    const spacing = 1.07
+    const spacing = 1.08
     const x =
       chartHeight +
       offset * 2 +
@@ -256,13 +273,11 @@ export function arcOutline(
     // endAngle = PI/2 => offset = 0
     const xPadding = 10
     const xOffset =
-      ((endAngle - (Math.PI * 1.2) / 2) / (Math.PI * 1.2)) *
-      (size.width + xPadding)
+      ((endAngle - Math.PI / 2) / Math.PI) * (size.width + xPadding)
 
     // calculate color
     let index
     arcDelimiters.forEach((el, i) => {
-      console.log(index, el)
       if (i === 0 && currentValue < el) index = 0
       if (i === 0 && currentValue > el) index = 1
       if (i === 1 && currentValue > el) index = 2
@@ -276,7 +291,7 @@ export function arcOutline(
       .text(currentValueCurrency)
       .attr('fill', color)
       .attr('align', 'center')
-      .attr('font-size', 12 + 'px')
+      .attr('font-size', 14 + 'px')
       .attr('font-family', labelsFont)
   }
 }
@@ -384,7 +399,7 @@ export function labelOutline(
   const realRangeFontSize = rangeLabelFontSize * 0.6 // counted empirically
   const centralLabelFontSize = rangeLabelFontSize * 1.5
   const realCentralFontSize = centralLabelFontSize * 0.66
-  const currentValueFontSize = rangeLabelFontSize * 0.7
+  const currentValueFontSize = rangeLabelFontSize * 0.81
 
   // Offsets specification (responsive to chart size)
   const leftRangeLabelOffsetX = rangeLabel[0]
@@ -403,8 +418,8 @@ export function labelOutline(
   const centralLabelOffsetX =
     areaWidth / 2 - (realCentralFontSize * centralLabel.length) / 2
   const centralLabelOffsetY = offset + chartHeight * 1.7
-  const currentValueCurrencyOffsetY = centralLabelOffsetY + 11
-  const central = areaWidth / 2 - String(currentValueCurrency).length * 3.2
+  const currentValueCurrencyOffsetY = centralLabelOffsetY + 22
+  const central = areaWidth / 2 - String(currentValueCurrency).length * 4
 
   svg
     .append('text')

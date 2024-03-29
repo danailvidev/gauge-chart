@@ -1,141 +1,93 @@
 import { gaugeChart } from '../../dist/bundle.mjs'
+// 9999999 -> $0.9M
+export const formatNumberShort = (number) => {
+  const rawNumber = new Intl.NumberFormat('en-GB', {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 4,
+    minimumSignificantDigits: 1,
+    maximumSignificantDigits: 2,
+    // @ts-ignore
+    roundingMode: 'floor',
+  }).format(number / 1000000)
+
+  return addPrefixAndSuffix(rawNumber)
+}
+
+// 999999 -> $4,445,455
+export const formatNumberLong = (number) => {
+  const rawNumber = new Intl.NumberFormat('en-GB', {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 4,
+    minimumSignificantDigits: 1,
+    maximumSignificantDigits: 2,
+    // @ts-ignore
+    roundingMode: 'floor',
+  }).format(number)
+
+  return `$${rawNumber}`
+}
+
+export const addPrefixAndSuffix = (number) => {
+  const currencySign = '$'
+  return `${currencySign}${number}M`
+}
 
 const element = document.querySelector('#gaugeArea')
+const widgets = [
+  {
+    policyGroupName: 'Serco Short Tail',
+    policyGroupYear: 2016,
+    label: 'Serco Short Tail - 2016',
+    nonRankingExcess: 613987.44,
+    selfInsuredCaptiveRetention: 0.0,
+    insuredAmount: 14143241.75,
+    limitValue: 9999999.0,
+    currentPercentageValue: 0.4419763,
+    currencyCode: 'GBP',
+  },
+  {
+    policyGroupName: 'Serco Long Tail',
+    policyGroupYear: 2017,
+    label: 'Serco Long Tail - 2017',
+    nonRankingExcess: 119483.32,
+    selfInsuredCaptiveRetention: 0.0,
+    insuredAmount: 3137699.33,
+    limitValue: 9999999.0,
+    currentPercentageValue: 0.0,
+    currencyCode: 'GBP',
+  },
+]
 
-const gaugeOptions = {
-  // needle options
-  hasNeedle: true,
-  outerNeedle: false,
-  needleColor: 'black',
-  needleStartValue: 0,
-  needleUpdateSpeed: 1000,
-  // arc options
-  arcColors: ['green', 'orange', 'red'],
-  arcDelimiters: [1, 15],
-  arcPadding: 0,
-  arcPaddingColor: 'white',
-  arcLabels: ['', '$123.5M'],
-  arcLabelFontSize: false,
-  // arcOverEffect: false,
-  // label options
-  // rangeLabel: ['0', '350'],
-  centralLabel: '11%',
-  rangeLabelFontSize: false,
-  labelsFont: 'Sans,Arial',
-  currentValue: 85, // in percentage
-  currentValueCurrency: '$344.5M',
-}
-const gaugeOptions2 = {
-  // needle options
-  hasNeedle: true,
-  outerNeedle: false,
-  needleColor: 'black',
-  needleStartValue: 0,
-  needleUpdateSpeed: 1000,
-  // arc options
-  arcColors: ['green', 'orange', 'red'],
-  arcDelimiters: [50, 75],
-  arcPadding: 0,
-  arcPaddingColor: 'white',
-  arcLabels: ['', '$123.5M'],
-  arcLabelFontSize: false,
-  // arcOverEffect: false,
-  // label options
-  // rangeLabel: ['0', '350'],
-  centralLabel: '5%',
-  rangeLabelFontSize: false,
-  labelsFont: 'Sans,Arial',
-  currentValue: 15, // in percentage
-  currentValueCurrency: '$344.5M',
-}
-const gaugeOptions3 = {
-  // needle options
-  hasNeedle: true,
-  outerNeedle: false,
-  needleColor: 'black',
-  needleStartValue: 0,
-  needleUpdateSpeed: 1000,
-  // arc options
-  arcColors: ['green', 'orange', 'red'],
-  arcDelimiters: [50, 75],
-  arcPadding: 0,
-  arcPaddingColor: 'white',
-  arcLabels: ['', '$123.5M'],
-  arcLabelFontSize: false,
-  // arcOverEffect: false,
-  // label options
-  // rangeLabel: ['0', '350'],
-  centralLabel: '175%',
-  rangeLabelFontSize: false,
-  labelsFont: 'Arial',
-  currentValue: 35, // in percentage
-  currentValueCurrency: '$344.5M',
-}
-const gaugeOptions4 = {
-  // needle options
-  hasNeedle: true,
-  outerNeedle: false,
-  needleColor: 'black',
-  needleStartValue: 0,
-  needleUpdateSpeed: 1000,
-  // arc options
-  arcColors: ['green', 'orange', 'red'],
-  arcDelimiters: [50, 75],
-  arcPadding: 0,
-  arcPaddingColor: 'white',
-  arcLabels: ['', '$123.5M'],
-  arcLabelFontSize: false,
-  // arcOverEffect: false,
-  // label options
-  // rangeLabel: ['0', '350'],
-  centralLabel: '175%',
-  rangeLabelFontSize: false,
-  labelsFont: 'Sans,Arial',
-  currentValue: 60, // in percentage
-  currentValueCurrency: '$344.5M',
-}
-const gaugeOptions5 = {
-  // needle options
-  hasNeedle: true,
-  outerNeedle: false,
-  needleColor: 'black',
-  needleStartValue: 0,
-  needleUpdateSpeed: 1000,
-  // arc options
-  arcColors: ['green', 'orange', 'red'],
-  arcDelimiters: [50, 75],
-  arcPadding: 0,
-  arcPaddingColor: 'white',
-  arcLabels: ['', '$123.5M'],
-  arcLabelFontSize: false,
-  // arcOverEffect: false,
-  // label options
-  // rangeLabel: ['0', '350'],
-  centralLabel: '175%',
-  rangeLabelFontSize: false,
-  labelsFont: 'Sans,Arial',
-  currentValue: 85, // in percentage
-  currentValueCurrency: '$344.5M',
-}
+widgets.forEach((w) => {
+  const firstDelimiterTreshold = 74
+  const secondDelimiterTreshold = 75
+  const gaugeOptions = {
+    hasNeedle: true,
+    outerNeedle: false,
+    needleColor: 'black',
+    needleStartValue: 0,
+    needleUpdateSpeed: 1000,
+    arcColors: ['green', 'orange', 'red'],
+    arcDelimiters: [
+      (firstDelimiterTreshold * secondDelimiterTreshold) / 100,
+      secondDelimiterTreshold,
+    ],
+    arcPadding: 1,
+    arcPaddingColor: 'white',
+    arcLabels: ['', formatNumberShort(w.limitValue)],
+    arcLabelFontSize: false,
+    centralLabel: '44%',
+    rangeLabelFontSize: 17.334, // 26px,
+    labelsFont: 'Arial',
+    currentValue: w.currentPercentageValue * secondDelimiterTreshold,
+    currentValueCurrency: formatNumberShort(
+      w.currentPercentageValue * w.limitValue,
+    ),
+  }
 
-gaugeChart(element, 300, gaugeOptions).updateNeedle(gaugeOptions.currentValue)
-gaugeChart(
-  document.querySelector('#gaugeArea2'),
-  300,
-  gaugeOptions2,
-).updateNeedle(15)
-gaugeChart(
-  document.querySelector('#gaugeArea3'),
-  300,
-  gaugeOptions3,
-).updateNeedle(35)
-gaugeChart(
-  document.querySelector('#gaugeArea4'),
-  300,
-  gaugeOptions4,
-).updateNeedle(60)
-gaugeChart(
-  document.querySelector('#gaugeArea5'),
-  300,
-  gaugeOptions5,
-).updateNeedle(85)
+  gaugeChart(
+    document.querySelector('#gaugeArea'),
+    300,
+    gaugeOptions,
+  ).updateNeedle(gaugeOptions.currentValue)
+})
